@@ -3,8 +3,8 @@ import { Header } from '../views/global/Header';
 import { Footer } from '../views/global/Footer';
 import { css } from '../../styles/form.css';
 import { InputComponent } from '../comps/Input';
-import DataList from '../views/local/DataList';
-import { Data } from '../../type/data';
+import { useAppDispatch } from '../../hooks';
+import { setStat } from '../../store/action';
 
 const {FormContainer, Button} = css;
 
@@ -12,14 +12,16 @@ export const Main = () => {
   const [value, setValue] = useState('');
   const [type, setType] = useState('');
   const [comment, setComment] = useState('');
-  const [data, setData] = useState<Data[]>([]);
+  const dispatch = useAppDispatch();
 
   const validation = () => {
     if (value.length > 2 && type) {
-      // eslint-disable-next-line no-console
-      console.log('Валидация прошла успешно');
-
-      setData((items) => [...items, {value, type, comment}]);
+      const data = {
+        value,
+        type,
+        comment
+      };
+      dispatch(setStat(data));
       setValue('');
       setType('');
       setComment('');
@@ -51,7 +53,6 @@ export const Main = () => {
           Сохранить транзакцию
         </Button>
       </FormContainer>
-      <DataList data={data} />
       <Footer />
     </>
   );
