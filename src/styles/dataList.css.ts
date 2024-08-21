@@ -26,6 +26,22 @@ const css = {
     width: ${(props) => props.width};
     font-size: 14px;
     text-align: center;
+  `,
+  ButtonsLine: styled.div`
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 800px;
+    margin: 0 auto;
+    margin-top: 40px;
+  `,
+  ButtonItem: styled.span`
+    display: block;
+    position: relative;
+    font-size: 13px;
+    color: grey;
+    margin-right: 40px;
+    cursor: pointer;
   `
 };
 
