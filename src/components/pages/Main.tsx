@@ -55,13 +55,14 @@ export const Main = () => {
   return (
     <>
       <Header />
-      <FormContainer>
+      <FormContainer style={{alignItems: 'flex-start'}}>
         <InputComponent placeholder='Введите сумму транзакции' action={setValue} inputValue={value} />
-        <FormControl>
+        <FormControl style={{marginTop: '9px', marginBottom: '12px'}}>
           <FormLabel id="demo-controlled-radio-buttons-group">Выберите тип транзакции</FormLabel>
           <RadioGroup
             aria-labelledby="demo-controlled-radio-buttons-group"
             name="controlled-radio-buttons-group"
+            style={{marginTop: '5px', marginLeft: '6px'}}
             value={type}
             onChange={handleChange}
           >
@@ -71,11 +72,12 @@ export const Main = () => {
         </FormControl>
         {type === 'доход' && <InputComponent placeholder='Введите комментарий' action={setComment} inputValue={comment} />}
         {type === 'расход' && (
-          <FormControl>
+          <FormControl style={{marginTop: '0px', marginBottom: '14px'}}>
             <FormLabel id="demo-controlled-radio-buttons-group">Выберите тип расходов</FormLabel>
             <RadioGroup
               aria-labelledby="demo-controlled-radio-buttons-group"
               name="controlled-radio-buttons-group"
+              style={{marginTop: '5px', marginLeft: '6px'}}
               value={comment}
               onChange={handleChangeComment}
             >
