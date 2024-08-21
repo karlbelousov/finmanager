@@ -1,4 +1,9 @@
 import { useState } from 'react';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 import { Header } from '../views/global/Header';
 import { Footer } from '../views/global/Footer';
 import { css } from '../../styles/form.css';
@@ -10,7 +15,7 @@ const {FormContainer, Button} = css;
 
 export const Main = () => {
   const [value, setValue] = useState('');
-  const [type, setType] = useState('');
+  const [type, setType] = useState('доход');
   const [comment, setComment] = useState('');
   const dispatch = useAppDispatch();
 
@@ -23,7 +28,7 @@ export const Main = () => {
       };
       dispatch(setStat(data));
       setValue('');
-      setType('');
+      setType('доход');
       setComment('');
     } else {
       // eslint-disable-next-line no-console
@@ -39,13 +44,49 @@ export const Main = () => {
     backgroundColorButton = 'rgb( 229, 229, 229 )';
   }
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setType((event.target as HTMLInputElement).value);
+  };
+
+  const handleChangeComment = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setComment((event.target as HTMLInputElement).value);
+  };
+
   return (
     <>
       <Header />
       <FormContainer>
         <InputComponent placeholder='Введите сумму транзакции' action={setValue} inputValue={value} />
-        <InputComponent placeholder='Введите тип транзакции' action={setType} inputValue={type} />
-        <InputComponent placeholder='Введите комментарий' action={setComment} inputValue={comment} />
+        <FormControl>
+          <FormLabel id="demo-controlled-radio-buttons-group">Выберите тип транзакции</FormLabel>
+          <RadioGroup
+            aria-labelledby="demo-controlled-radio-buttons-group"
+            name="controlled-radio-buttons-group"
+            value={type}
+            onChange={handleChange}
+          >
+            <FormControlLabel value="доход" control={<Radio />} label="Доход" />
+            <FormControlLabel value="расход" control={<Radio />} label="Расход" />
+          </RadioGroup>
+        </FormControl>
+        {type === 'доход' && <InputComponent placeholder='Введите комментарий' action={setComment} inputValue={comment} />}
+        {type === 'расход' && (
+          <FormControl>
+            <FormLabel id="demo-controlled-radio-buttons-group">Выберите тип расходов</FormLabel>
+            <RadioGroup
+              aria-labelledby="demo-controlled-radio-buttons-group"
+              name="controlled-radio-buttons-group"
+              value={comment}
+              onChange={handleChangeComment}
+            >
+              <FormControlLabel value="покупка продуктов" control={<Radio />} label="Покупка продуктов" />
+              <FormControlLabel value="оплата счетов" control={<Radio />} label="Oплата счетов" />
+              <FormControlLabel value="покупка одежды" control={<Radio />} label="Покупка одежды" />
+              <FormControlLabel value="расходы на транспорт" control={<Radio />} label="Расходы на транспорт" />
+              <FormControlLabel value="развлечения" control={<Radio />} label="Развлечения" />
+              <FormControlLabel value="путешествия" control={<Radio />} label="Путешествия" />
+            </RadioGroup>
+          </FormControl> )}
         <Button
           backgroundColor={backgroundColorButton}
           onClick={validation}
