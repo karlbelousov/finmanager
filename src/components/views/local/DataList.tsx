@@ -4,9 +4,13 @@ import { useAppSelector } from '../../../hooks';
 
 const {DataContainer, ContentLine,ContentCell, ButtonsLine, ButtonItem} = css;
 
-const DataList = () => {
+type DataListProps = {
+  setShow: (isShow: boolean) => void;
+}
+
+const DataList = ({setShow}: DataListProps) => {
   const data = useAppSelector((state) => state.data);
-  const [dataType, setDataType] = useState('доход');
+  const [dataType, setDataType] = useState('расход');
   const filterData = data.filter((item) => item.type === dataType);
   const filterDataSumm = data.filter((item) => item.type === dataType)
     .reduce((summ, item) => {
@@ -24,9 +28,17 @@ const DataList = () => {
       }
     }, 0);
 
-  const reducerDataType1 = () => setDataType('доход');
-  const reducerDataType2 = () => setDataType('расход');
-  const reducerDataType3 = () => setDataType('');
+  const reducerDataType1 = () => {
+    setDataType('доход');
+    setShow(false);
+  };
+  const reducerDataType2 = () => {
+    setDataType('расход');
+    setShow(true);
+  };
+  const reducerDataType3 = () => {
+    setDataType('');
+  };
 
   useEffect(() => {
     // eslint-disable-next-line no-console
@@ -36,9 +48,9 @@ const DataList = () => {
   return (
     <>
       <ButtonsLine>
-        <ButtonItem onClick={reducerDataType1}>доходы</ButtonItem>
-        <ButtonItem onClick={reducerDataType2}>расходы</ButtonItem>
-        <ButtonItem onClick={reducerDataType3}>общее</ButtonItem>
+        <ButtonItem style={{fontWeight: dataType === 'доход' ? 'bold' : ''}} onClick={reducerDataType1}>доходы</ButtonItem>
+        <ButtonItem style={{fontWeight: dataType === 'расход' ? 'bold' : ''}} onClick={reducerDataType2}>расходы</ButtonItem>
+        <ButtonItem style={{fontWeight: dataType === '' ? 'bold' : ''}} onClick={reducerDataType3}>общее</ButtonItem>
       </ButtonsLine>
       <DataContainer>
         {filterData.length > 0 ? (
