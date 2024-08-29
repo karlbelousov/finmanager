@@ -181,7 +181,7 @@ const DataChart = ({show = true}: DataChartProps) => {
 
   return (
     // eslint-disable-next-line react/jsx-no-useless-fragment
-    <React.Fragment>
+    <>
       {show && (
         <DataContainer style={{ height: '500px' }}>
           <MyResponsivePie
@@ -222,10 +222,10 @@ const DataChart = ({show = true}: DataChartProps) => {
                 value: r06,
                 color: 'hsl(276, 70%, 50%)'
               }
-            ]}
+            ].filter((item) => item.value > 0)}
           />
         </DataContainer>)}
-    </React.Fragment>
+    </>
   );
 };
 
