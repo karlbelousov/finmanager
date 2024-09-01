@@ -19,9 +19,9 @@ export const Header = () => (
   <HeaderContainer>
     <HeaderCss.Logo>FINMANAGER</HeaderCss.Logo>
     <HeaderCss.MenuContainer>
-      <Link style={buttonCss} to={'/'}>Главная</Link>
-      <Link style={buttonCss} to={'/stat'}>Статистика</Link>
-      <Link style={buttonCss} to={''}>Планирование</Link>
+      <Link style={buttonCss} to={'/main'}>Главная</Link>
+      <Link style={buttonCss} to={'/stat/расход'}>Статистика</Link>
+      <Link style={buttonCss} to={'/plan'}>Планирование</Link>
     </HeaderCss.MenuContainer>
   </HeaderContainer>
 );

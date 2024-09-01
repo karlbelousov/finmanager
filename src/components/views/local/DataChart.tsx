@@ -2,7 +2,7 @@
 import css from '../../../styles/dataList.css';
 import { ResponsivePie } from '@nivo/pie';
 import { DataChartType } from '../../../type/data';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppSelector } from '../../../hooks';
 
 const { DataContainer } = css;
@@ -11,7 +11,7 @@ type MyResponsivePieProps = {
   data: DataChartType[];
 }
 
-const MyResponsivePie = ({ data}: MyResponsivePieProps) => (
+const MyResponsivePie = ({data}: MyResponsivePieProps) => (
   <ResponsivePie
     data={data}
     margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
@@ -142,10 +142,11 @@ const MyResponsivePie = ({ data}: MyResponsivePieProps) => (
 );
 
 type DataChartProps = {
+  viewType: string | undefined;
   show?: boolean;
 }
 
-const DataChart = ({show = true}: DataChartProps) => {
+const DataChart = ({viewType, show = true}: DataChartProps) => {
   const data = useAppSelector((state) => state.data);
   const filterData = data.filter((item) => item.type === 'расход');
 

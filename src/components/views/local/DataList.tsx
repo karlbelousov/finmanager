@@ -1,18 +1,19 @@
-import { useEffect, useState } from 'react';
 import css from '../../../styles/dataList.css';
 import { useAppSelector } from '../../../hooks';
+import { useNavigate } from 'react-router-dom';
 
 const {DataContainer, ContentLine,ContentCell, ButtonsLine, ButtonItem} = css;
 
 type DataListProps = {
+  viewType: string | undefined;
   setShow: (isShow: boolean) => void;
 }
 
-const DataList = ({setShow}: DataListProps) => {
+const DataList = ({viewType, setShow}: DataListProps) => {
   const data = useAppSelector((state) => state.data);
-  const [dataType, setDataType] = useState('расход');
-  const filterData = data.filter((item) => item.type === dataType);
-  const filterDataSumm = data.filter((item) => item.type === dataType)
+  const navigate = useNavigate();
+  const filterData = data.filter((item) => item.type === viewType);
+  const filterDataSumm = data.filter((item) => item.type === viewType)
     .reduce((summ, item) => {
       const {value} = item;
       return summ + +value;
@@ -29,28 +30,23 @@ const DataList = ({setShow}: DataListProps) => {
     }, 0);
 
   const reducerDataType1 = () => {
-    setDataType('доход');
+    navigate('/stat/доход');
     setShow(false);
   };
   const reducerDataType2 = () => {
-    setDataType('расход');
+    navigate('/stat/расход');
     setShow(true);
   };
   const reducerDataType3 = () => {
-    setDataType('');
+    navigate('/stat/общее');
   };
-
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log(data);
-  }, [data]);
 
   return (
     <>
       <ButtonsLine>
-        <ButtonItem style={{fontWeight: dataType === 'доход' ? 'bold' : ''}} onClick={reducerDataType1}>доходы</ButtonItem>
-        <ButtonItem style={{fontWeight: dataType === 'расход' ? 'bold' : ''}} onClick={reducerDataType2}>расходы</ButtonItem>
-        <ButtonItem style={{fontWeight: dataType === '' ? 'bold' : ''}} onClick={reducerDataType3}>общее</ButtonItem>
+        <ButtonItem style={{fontWeight: viewType === 'доход' ? 'bold' : ''}} onClick={reducerDataType1}>доходы</ButtonItem>
+        <ButtonItem style={{fontWeight: viewType === 'расход' ? 'bold' : ''}} onClick={reducerDataType2}>расходы</ButtonItem>
+        <ButtonItem style={{fontWeight: viewType === 'общее' ? 'bold' : ''}} onClick={reducerDataType3}>общее</ButtonItem>
       </ButtonsLine>
       <DataContainer>
         {filterData.length > 0 ? (

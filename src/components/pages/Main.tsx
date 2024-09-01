@@ -4,7 +4,6 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import { Header } from '../views/global/Header';
 import { Footer } from '../views/global/Footer';
 import { css } from '../../styles/form.css';
 import { InputComponent } from '../comps/Input';
@@ -54,7 +53,6 @@ export const Main = () => {
 
   return (
     <>
-      <Header />
       <FormContainer style={{alignItems: 'flex-start'}}>
         <InputComponent placeholder='Введите сумму транзакции' action={setValue} inputValue={value} />
         <FormControl style={{marginTop: '9px', marginBottom: '12px'}}>
