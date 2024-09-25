@@ -10,7 +10,7 @@ type DataListProps = {
 }
 
 const DataList = ({viewType, setShow}: DataListProps) => {
-  const data = useAppSelector((state) => state.data);
+  const data = useAppSelector((state) => state.dataSlice.data);
   const navigate = useNavigate();
   const filterData = data.filter((item) => item.type === viewType);
   const filterDataSumm = data.filter((item) => item.type === viewType)

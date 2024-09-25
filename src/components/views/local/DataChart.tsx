@@ -2,7 +2,7 @@
 import css from '../../../styles/dataList.css';
 import { ResponsivePie } from '@nivo/pie';
 import { DataChartType } from '../../../type/data';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppSelector } from '../../../hooks';
 
 const { DataContainer } = css;
@@ -146,8 +146,8 @@ type DataChartProps = {
   show?: boolean;
 }
 
-const DataChart = ({viewType, show = true}: DataChartProps) => {
-  const data = useAppSelector((state) => state.data);
+const DataChart = ({show = true, viewType}: DataChartProps) => {
+  const data = useAppSelector((state) => state.dataSlice.data);
   const filterData = data.filter((item) => item.type === 'расход');
 
   const [r01, setR01] = useState(0);

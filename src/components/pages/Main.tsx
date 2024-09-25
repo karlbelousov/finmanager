@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -7,28 +6,29 @@ import FormLabel from '@mui/material/FormLabel';
 import { Footer } from '../views/global/Footer';
 import { css } from '../../styles/form.css';
 import { InputComponent } from '../comps/Input';
-import { useAppDispatch } from '../../hooks';
-import { setStat } from '../../store/action';
+import { useAppDispatch, useAppSelector} from '../../hooks';
+import { changeViewType, changeValue, changeComment } from '../../store/reducers/view-type-for-main';
+import { setData } from '../../store/reducers/data';
 
 const {FormContainer, Button} = css;
 
 export const Main = () => {
-  const [value, setValue] = useState('');
-  const [type, setType] = useState('доход');
-  const [comment, setComment] = useState('');
   const dispatch = useAppDispatch();
+  const viewType = useAppSelector((state) => state.viewTypeMain.viewType);
+  const viewValue = useAppSelector((state) => state.viewTypeMain.value);
+  const viewComment = useAppSelector((state) => state.viewTypeMain.comment);
 
   const validation = () => {
-    if (value.length > 2 && type) {
-      const data = {
-        value,
-        type,
-        comment
-      };
-      dispatch(setStat(data));
-      setValue('');
-      setType('доход');
-      setComment('');
+    if (viewValue.length > 2 && viewType) {
+      dispatch(changeViewType('доход'));
+      dispatch(changeValue(''));
+      dispatch(changeComment(''));
+      dispatch(setData({
+        value: viewValue,
+        type: viewType,
+        comment: viewComment
+      }));
+
     } else {
       // eslint-disable-next-line no-console
       console.log('Ошибка валидации');
@@ -37,46 +37,55 @@ export const Main = () => {
 
   let backgroundColorButton = '';
 
-  if (value.length > 3 && type.length > 3) {
+  if (viewValue.length > 3 && viewType.length > 3) {
     backgroundColorButton = 'rgb( 176, 243, 71 )';
   } else {
     backgroundColorButton = 'rgb( 229, 229, 229 )';
   }
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setType((event.target as HTMLInputElement).value);
+    dispatch(changeViewType(event.target.value));
+  };
+
+  const handleChangeValue = (value: string) => {
+    dispatch(changeValue(value));
   };
 
   const handleChangeComment = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setComment((event.target as HTMLInputElement).value);
+    dispatch(changeComment((event.target.value)));
   };
+
+  const handleChangeCommentValue = (comment: string) => {
+    dispatch(changeComment(comment));
+  };
+
 
   return (
     <>
       <FormContainer style={{alignItems: 'flex-start'}}>
-        <InputComponent placeholder='Введите сумму транзакции' action={setValue} inputValue={value} />
+        <InputComponent placeholder='Введите сумму транзакции' action={handleChangeValue} inputValue={viewValue} />
         <FormControl style={{marginTop: '9px', marginBottom: '12px'}}>
           <FormLabel id="demo-controlled-radio-buttons-group">Выберите тип транзакции</FormLabel>
           <RadioGroup
             aria-labelledby="demo-controlled-radio-buttons-group"
             name="controlled-radio-buttons-group"
             style={{marginTop: '5px', marginLeft: '6px'}}
-            value={type}
+            value={viewType}
             onChange={handleChange}
           >
             <FormControlLabel value="доход" control={<Radio />} label="Доход" />
             <FormControlLabel value="расход" control={<Radio />} label="Расход" />
           </RadioGroup>
         </FormControl>
-        {type === 'доход' && <InputComponent placeholder='Введите комментарий' action={setComment} inputValue={comment} />}
-        {type === 'расход' && (
+        {viewType === 'доход' && <InputComponent placeholder='Введите комментарий' action={handleChangeCommentValue} inputValue={viewComment} />}
+        {viewType === 'расход' && (
           <FormControl style={{marginTop: '0px', marginBottom: '14px'}}>
             <FormLabel id="demo-controlled-radio-buttons-group">Выберите тип расходов</FormLabel>
             <RadioGroup
               aria-labelledby="demo-controlled-radio-buttons-group"
               name="controlled-radio-buttons-group"
               style={{marginTop: '5px', marginLeft: '6px'}}
-              value={comment}
+              value={viewComment}
               onChange={handleChangeComment}
             >
               <FormControlLabel value="покупка продуктов" control={<Radio />} label="Покупка продуктов" />
